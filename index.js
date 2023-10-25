@@ -20,7 +20,11 @@ const PORT = process.env.PORT || 8000;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
-const client = new Client();
+const client = new Client({
+  puppeteer: {
+    headless: true,
+  },
+});
 
 // index routing and middleware
 app.use(express.json());
@@ -100,15 +104,8 @@ app.post("/send", async (req, res) => {
   const phone = req.body.phone;
   const message = req.body.message;
 
-  const chatCompletion = await openai.chat.completions.create({
-    messages: [{ role: "user", content: message }],
-    model: "gpt-3.5-turbo",
-  });
-
-  console.log(chatCompletion.choices);
-
   client
-    .sendMessage(`${phone}@c.us`, chatCompletion.choices[0].message.content)
+    .sendMessage(`${phone}@c.us`, message)
     .then((response) => {
       res.status(200).json({
         error: false,
