@@ -12,12 +12,14 @@ const PORT = process.env.PORT || 8000;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
-const client = new Client({
-  puppeteer: {
-    headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  },
-});
+// const client = new Client({
+//   puppeteer: {
+//     headless: true,
+//     args: ["--no-sandbox", "--disable-setuid-sandbox"],
+//   },
+// });
+
+const client = 0;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
